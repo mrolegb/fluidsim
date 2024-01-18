@@ -21,8 +21,8 @@ func apply_gravity(
 ) -> Vector2:
 	if current_pos.y >= viewport.y - radius * 2:
 		return current_pos
-	var updated_pos = Vector2(current_pos.x, current_pos.y + 1.0 * force * delta)
-	return updated_pos
+	var new_position = Vector2(current_pos.x, current_pos.y + 1.0 * force * delta)
+	return new_position
 
 func simulate(
 	positions: Array[Vector2],
@@ -36,11 +36,11 @@ func simulate(
 			if n == i:
 				continue
 			if abs(abs(positions[i].x) - abs(positions[n].x)) <= (droplet_radius * 2 + 20):
-				positions[i].x = positions[i].x + droplet_radius * 8 * signf(
+				positions[i].x = positions[i].x + droplet_radius * gravity_force / 10 * signf(
 					positions[n].x - positions[i].x
 				) * delta
 			if abs(abs(positions[i].y) - abs(positions[n].y)) <= (droplet_radius * 2 + 20):
-				positions[i].y = positions[i].y + droplet_radius * 2 * signf(
+				positions[i].y = positions[i].y + droplet_radius * gravity_force / 10 * signf(
 					positions[i].y - positions[n].y
 				) * delta
 		
@@ -49,4 +49,6 @@ func simulate(
 			positions[i].x = positions[i].x + droplet_radius / 2.0 * delta
 		if positions[i].x >= viewport.x:
 			positions[i].x = viewport.x - droplet_radius / 2.0 * delta
-		apply_gravity(positions[i], droplet_radius, gravity_force, delta, viewport)
+			
+		# GRAVITY	
+		positions[i] = apply_gravity(positions[i], droplet_radius, gravity_force, delta, viewport)

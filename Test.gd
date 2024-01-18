@@ -3,7 +3,7 @@ extends Node2D
 var simulation
 
 @export var droplet_radius := 15
-@export var gravitation_force := 1000.0
+@export var gravitation_force := 200.0
 
 var positions: Array[Vector2] = []
 
